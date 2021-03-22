@@ -77,7 +77,7 @@
 ]
 %}
 <article{{ attributes.addClass(classes) }}>
-    {{ content.localgov_news_image }}
+  <a href="{{ url }}" tabindex="-1">{{ content.localgov_news_image }}</a>
   <div{{ content_attributes.addClass('node__content') }}>
     <h3>
       <a href="{{ url }}">{{ label }}</a>

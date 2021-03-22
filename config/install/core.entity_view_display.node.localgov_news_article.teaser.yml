@@ -50,7 +50,7 @@ content:
     label: hidden
     settings:
       image_style: localgov_newsroom_teaser
-      image_link: content
+      image_link: ''
     third_party_settings: {  }
 hidden:
   links: true
