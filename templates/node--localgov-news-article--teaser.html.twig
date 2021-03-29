@@ -70,19 +70,44 @@
 #}
 {%
   set classes = [
-  'node',
-  'node--type-' ~ node.bundle|clean_class,
-  not node.isPublished() ? 'node--unpublished',
-  view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
-]
+    'teaser',
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  ]
 %}
+
 <article{{ attributes.addClass(classes) }}>
-    {{ content.localgov_news_image }}
-  <div{{ content_attributes.addClass('node__content') }}>
-    <h3>
+  
+  {% if node.localgov_news_image.value %}
+    <div class="teaser__image">
+      {{ content.localgov_news_image }}
+    </div>
+  {% endif %}
+  
+  <div{{ content_attributes.addClass('teaser__content node__content') }}>
+    <h3{{ title_attributes.addClass('teaser__title') }}>
       <a href="{{ url }}">{{ label }}</a>
     </h3>
     <p>{{ node.body.summary }}</p>
-    <div class="localgov_news_date">{{ content.localgov_news_date }}</div>
+
+    {% if node.localgov_news_date.value %}
+      <time datetime="{{ node.localgov_news_date.value|date("U") }}" class="teaser__date">
+        {{ content.localgov_news_date }}
+      </time>
+    {% endif %}
   </div>
+
 </article>
+
+{% block content_variable %}
+  {#
+    This allows the cache_context to bubble up for us, without having to
+    individually list every field in
+    {{ content|without('field_name', 'field_other_field', 'field_etc') }}
+  #}
+  {% set catch_cache = content|render %}
+{% endblock %}
