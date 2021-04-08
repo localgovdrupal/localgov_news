@@ -89,7 +89,7 @@
         {% for item in node.localgov_news_categories %}
           <li class="news-article__category">
             <a href="/news/search?f[0]=category:{{ item.target_id }}">
-              {{ item.entity.label() }}
+              {{ item.entity.label }}
             </a>
           </li>
         {% endfor %}
