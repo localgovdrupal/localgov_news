@@ -1,7 +1,6 @@
 {#
 /**
  * @file
- * Bartik's theme implementation to display a node.
  *
  * Available variables:
  * - node: The node entity with limited access to object properties and methods.
@@ -83,18 +82,18 @@
 
   <div class="news-article__metadata">
     <time datetime="{{ node.localgov_news_date()|date("U") }}" class="news-article__metadata-item news-article__metadata--date">
-      {{ node.localgov_news_date()|date("j F Y") }}
+      {{ content.localgov_news_date }}
     </time>
-    {% if not node.localgov_news_categories.isEmpty() %}
-      {% for item in node.localgov_news_categories %}
-        <ul class="news-article__metadata-item news-article__metadata--categories">
+    {% if node.localgov_news_categories.value %}
+      <ul class="news-article__metadata-item news-article__metadata--categories">
+        {% for item in node.localgov_news_categories %}
           <li class="news-article__category">
-            <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': item.entity.id()}) }}">
+            <a href="/news/search?f[0]=category:{{ item.target_id }}">
               {{ item.entity.label() }}
             </a>
           </li>
-        </ul>
-      {% endfor %}
+        {% endfor %}
+      </ul>
     {% endif %}
   </div>
 
@@ -103,7 +102,7 @@
   </h1>
 
   <div{{ content_attributes.addClass('news-article__content node__content') }}>
-    {{ content }}
+    {{ content|without('localgov_news_date') }}
   </div>
 
 </article>
