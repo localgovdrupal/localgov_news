@@ -20,17 +20,17 @@ content:
     settings: {  }
     third_party_settings: {  }
   localgov_news_facets:
-    weight: 3
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  localgov_news_search:
     weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
-  localgov_newsroom_all_view:
+  localgov_news_search:
     weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  localgov_newsroom_all_view:
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -44,4 +44,5 @@ content:
       link: false
     third_party_settings: {  }
 hidden:
+  localgov_newsroom_featured_view: true
   search_api_excerpt: true
