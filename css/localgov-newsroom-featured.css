@@ -12,4 +12,25 @@
     margin-right: 0.5rem;
     width: calc(100% / 3 - 1rem);
   }
+
+  .view-localgov-news-list {
+    width: 66%;
+  }
+
+  #views-exposed-form-localgov-news-search-page-search-news {
+    width: 33%;
+    float: right;
+  }
+
+  .node--localgov_newsroom .facets-widget-checkbox {
+    width: 33%;
+    float: right;
+    clear: right;
+  }
+}
+
+@media screen and (max-width: 48rem) {
+  .node--localgov_newsroom .facets-widget-checkbox {
+    display: none;
+  }
 }
