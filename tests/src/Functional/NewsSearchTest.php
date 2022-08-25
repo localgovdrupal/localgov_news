@@ -92,11 +92,12 @@ class NewsSearchTest extends BrowserTestBase {
     $this->assertSession()->pageTextContains('Test News Article');
 
     // Defaults to be on 'news' path page.
-    $this->drupalGet('news/2021/test-news-article');
+    $year = date("Y");
+    $this->drupalGet("news/$year/test-news-article");
     $this->submitForm(['edit-search-api-fulltext' => 'dogma'], 'Apply');
     $this->assertSession()->pageTextContains('Test News Article');
 
-    $this->drupalGet('news/2021/test-news-article');
+    $this->drupalGet("news/$year/test-news-article");
     $this->submitForm(['edit-search-api-fulltext' => 'xyzzy'], 'Apply');
     $this->assertSession()->pageTextNotContains('Test News Article');
   }
