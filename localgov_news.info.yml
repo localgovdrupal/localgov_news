@@ -1,6 +1,6 @@
 name: 'LocalGov News: Core'
 description: Base module shared for LocalGov News with news article content type and optional Newsroom sub-module.
-core_version_requirement: ^9
+core_version_requirement: ^9 || ^10
 type: module
 package: LocalGov Drupal
 
