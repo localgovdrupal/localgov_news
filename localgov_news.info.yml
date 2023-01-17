@@ -5,6 +5,7 @@ type: module
 package: LocalGov Drupal
 
 dependencies:
+  - drupal:content_moderation
   - drupal:datetime
   - drupal:field
   - drupal:link
@@ -20,6 +21,7 @@ dependencies:
   - field_group:field_group
   - link_attributes:link_attributes
   - localgov_core:localgov_core
+  - localgov_core:localgov_media
   - localgov_topics:localgov_topics
   - pathauto:pathauto
   - search_api:search_api
