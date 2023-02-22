@@ -84,7 +84,11 @@ function localgov_news_field_widget_multivalue_form_alter(array &$elements, Form
 
     // If there are no newsrooms warnings display a warning.
     if (count($options) == 1 && isset($options['_none'])) {
-      \Drupal::messenger()->addWarning(t('There are no Newsrooms. Please <a href="./localgov_newsroom">create a Newsroom</a> to add this article to.'));
+      $create_newsroom_path = 'localgov_newsroom';
+      if (\Drupal::hasService('domain_group_resolver') && !is_null(\Drupal::service('domain_group_resolver')->getCurrentRouteGroupDomain())) {
+        $create_newsroom_path = 'group_node:' . $create_newsroom_path;
+      }
+      \Drupal::messenger()->addWarning(t('There are no Newsrooms. Please <a href="./' . $create_newsroom_path . '">create a Newsroom</a> to add this article to.'));
     }
 
     unset($options['_none']);
