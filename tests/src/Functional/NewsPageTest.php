@@ -162,7 +162,7 @@ class NewsPageTest extends BrowserTestBase {
     $media_field->save();
 
     $this->drupalLogin($this->adminUser);
-    
+
     // Add article.
     $this->drupalGet('/node/add/localgov_news_article');
     $this->submitForm([
