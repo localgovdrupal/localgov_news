@@ -81,6 +81,12 @@ function localgov_news_field_widget_multivalue_form_alter(array &$elements, Form
   $field_definition = $context['items']->getFieldDefinition();
   if ($field_definition->getName() == 'localgov_newsroom' && isset($elements['#options'])) {
     $options = $elements['#options'];
+
+    // If there are no newsrooms warnings display a warning.
+    if (count($options) == 1 && isset($options['_none'])) {
+      \Drupal::messenger()->addWarning(t('There are no Newsrooms. Please <a href="./localgov_newsroom">create a Newsroom</a> to add this article to.'));
+    }
+
     unset($options['_none']);
     if (count($options) == 1) {
       $elements['#value'] = key($options);
