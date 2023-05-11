@@ -14,6 +14,7 @@ dependencies:
   - drupal:path
   - drupal:taxonomy
   - drupal:text
+  - drupal:toolbar
   - drupal:user
   - entity_browser:entity_browser
   - entity_reference_facet_link:entity_reference_facet_link
