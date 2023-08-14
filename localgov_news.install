@@ -10,7 +10,12 @@ use Drupal\user\RoleInterface;
 /**
  * Implements hook_install().
  */
-function localgov_news_install() {
+function localgov_news_install($is_syncing) {
+
+  if ($is_syncing) {
+    return;
+  }
+
   if (\Drupal::moduleHandler()->moduleExists('user')) {
     user_role_grant_permissions(RoleInterface::ANONYMOUS_ID, ['use search_api_autocomplete for localgov_news_search']);
   }
