@@ -1,7 +1,10 @@
-uuid: 3cf615c4-e731-47bc-8a4d-87551020c670
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  enforced:
+    module:
+      - localgov_news
+      - localgov_menu_link_group
 id: localgov_menu_link_group_news
 group_label: News
 weight: 0
