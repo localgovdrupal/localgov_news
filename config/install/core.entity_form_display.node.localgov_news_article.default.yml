@@ -34,6 +34,7 @@ third_party_settings:
         id: ''
         classes: ''
         direction: vertical
+        width_breakpoint: 1138
       label: Tabs
     group_about_the_story:
       children:
