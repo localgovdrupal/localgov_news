@@ -5,6 +5,7 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.storage.node.localgov_news_date
     - node.type.localgov_news_article
+    - node.type.localgov_newsroom
   module:
     - datetime
     - node
@@ -126,21 +127,23 @@ display:
           exposed: false
           granularity: second
       arguments:
-        localgov_newsroom_target_id:
-          id: localgov_newsroom_target_id
-          table: node__localgov_newsroom
-          field: localgov_newsroom_target_id
-          relationship: none
+        nid:
+          id: nid
+          table: node_field_data
+          field: nid
+          relationship: localgov_newsroom
           group_type: group
           admin_label: ''
-          plugin_id: numeric
-          default_action: 'not found'
+          entity_type: node
+          entity_field: nid
+          plugin_id: node_nid
+          default_action: ignore
           exception:
             value: all
             title_enable: false
             title: All
-          title_enable: false
-          title: ''
+          title_enable: true
+          title: '{{ arguments.nid }}'
           default_argument_type: fixed
           default_argument_options:
             argument: ''
@@ -153,11 +156,16 @@ display:
             sort_order: asc
             number_of_records: 0
             format: default_summary
-          specify_validation: false
+          specify_validation: true
           validate:
-            type: none
+            type: 'entity:node'
             fail: 'not found'
-          validate_options: {  }
+          validate_options:
+            bundles:
+              localgov_newsroom: localgov_newsroom
+            access: false
+            operation: view
+            multiple: 0
           break_phrase: false
           not: false
       filters:
@@ -260,8 +268,18 @@ display:
           entity_type: node
           plugin_id: entity_reverse
           required: false
+        localgov_newsroom:
+          id: localgov_newsroom
+          table: node__localgov_newsroom
+          field: localgov_newsroom
+          relationship: none
+          group_type: group
+          admin_label: 'localgov_newsroom: Content'
+          plugin_id: standard
+          required: false
       css_class: 'view--teasers lgd-teaser-list'
       use_ajax: false
+      show_admin_links: true
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -294,29 +312,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - 'user.node_grants:view'
-        - user.permissions
-      tags: {  }
-  feed_1:
-    id: feed_1
-    display_title: Feed
-    display_plugin: feed
-    position: 3
-    display_options:
-      row:
-        type: node_rss
-        options: {  }
-      display_extenders: {  }
-      path: news/%node/feed.rss
-      displays:
-        all_news: all_news
-        default: '0'
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - url
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
@@ -541,3 +536,32 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.localgov_news_date'
+  rss_feed:
+    id: rss_feed
+    display_title: Feed
+    display_plugin: feed
+    position: 3
+    display_options:
+      style:
+        type: rss
+        options:
+          grouping: {  }
+          uses_fields: false
+          description: ''
+      row:
+        type: node_rss
+        options: {  }
+      display_extenders: {  }
+      path: news/%node/feed.rss
+      displays:
+        all_news: all_news
+        default: '0'
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - 'user.node_grants:view'
+        - user.permissions
+      tags: {  }
