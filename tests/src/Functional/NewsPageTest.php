@@ -265,6 +265,10 @@ class NewsPageTest extends BrowserTestBase {
     $this->drupalGet('news/' . date('Y') . '/news-article-1');
     $this->assertSession()->pageTextContains('News article 1');
     $this->assertSession()->pageTextContains($body);
+
+    // Flush cache needed to access the news view with the addition of the rss
+    // feed. Otherwise: Route view.localgov_news_list.feed_1 does not exist.
+    drupal_flush_all_caches();
     $this->drupalGet('news');
     $this->assertSession()->elementContains('css', 'div.view--teasers', 'News article 1');
 
