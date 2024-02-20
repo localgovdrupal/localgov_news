@@ -110,6 +110,9 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
     if ($display->getComponent('localgov_news_facets')) {
       $build['localgov_news_facets'] = $this->getFacetsBlock();
     }
+    if ($node->getType() == 'localgov_news_article' && $view_mode == 'rss') {
+      $this->rssEntityView($node);
+    }
   }
 
   /**
@@ -297,6 +300,21 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
     }
 
     return $blocks;
+  }
+
+  /**
+   * RSS entity view customisations.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The node being rendered in RSS entity view mode.
+   */
+  protected function rssEntityView(NodeInterface $node) {
+    foreach ($node->rss_elements as $delta => $element) {
+      // Replace created pubDate with News Published Date.
+      if ($element['key'] == 'pubDate') {
+        $node->rss_elements[$delta]['value'] = $node->localgov_news_date?->date?->format('r') ?? $node->rss_elements[$delta]['value'];
+      }
+    }
   }
 
 }
