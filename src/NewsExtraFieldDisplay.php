@@ -314,6 +314,12 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
       if ($element['key'] == 'pubDate') {
         $node->rss_elements[$delta]['value'] = $node->localgov_news_date?->date?->format('r') ?? $node->rss_elements[$delta]['value'];
       }
+
+      // Remove dc:creator.
+      // @todo Allow this to be overridden.
+      if ($element['key'] == 'dc:creator') {
+        unset($node->rss_elements[$delta]);
+      }
     }
   }
 
