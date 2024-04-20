@@ -1,3 +1,5 @@
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/localgovdrupal/localgov_news/test.yml?label=Tests)
+
 # LocalGov Drupal News
 
 Provides the pages and navigation for presenting news articles. A part of the LocalGovDrupal distribution.
