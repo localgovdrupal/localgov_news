@@ -1,5 +1,9 @@
-![Packagist Version](https://img.shields.io/packagist/v/localgovdrupal/localgov_news)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/localgovdrupal/localgov_news/test.yml?label=Tests)
+
+<a hre="https://packagist/localgovdrupal/localgov_news/"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/localgovdrupal/localgov_news"></a>
+<a href="https://github.com/localgovdrupal/localgov_news/actions">
+  <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/localgovdrupal/localgov_news/test.yml"></a>
+<a href="https://github.com/localgovdrupal/localgov_news/graphs/contributors" alt="Contributors">
+  <img src="https://img.shields.io/github/contributors/localgovdrupal/localgov_news" /></a>
 
 # LocalGov Drupal News
 
