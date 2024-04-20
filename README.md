@@ -1,3 +1,4 @@
+![Packagist Version](https://img.shields.io/packagist/v/localgovdrupal/localgov_news)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/localgovdrupal/localgov_news/test.yml?label=Tests)
 
 # LocalGov Drupal News
