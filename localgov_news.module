@@ -8,7 +8,6 @@
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\group\Entity\GroupInterface;
 use Drupal\localgov_news\NewsExtraFieldDisplay;
 use Drupal\node\NodeInterface;
 
