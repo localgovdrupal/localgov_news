@@ -135,6 +135,7 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
       ($form_display->getComponent('localgov_news_newsroom_promote'))
     ) {
 
+      /** @var \Drupal\node\NodeForm $form_object */
       $form_object = $form_state->getFormObject();
       $node = $form_object->getEntity();
       if (empty($this->moderationInformation) || !$this->moderationInformation->isModeratedEntity($node)) {
@@ -195,9 +196,13 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
       $is_promoted = self::articlePromotedStatus($form_object);
       if ($to_promote != $is_promoted) {
         if ($to_promote) {
+          /** @var \Drupal\node\NodeInterface $newsroom */
+          /** @var \Drupal\node\NodeInterface $article */
           self::articleSetNewsroomPromote($newsroom, $article);
         }
         else {
+          /** @var \Drupal\node\NodeInterface $newsroom */
+          /** @var \Drupal\node\NodeInterface $article */
           self::articleUnsetNewsroomPromote($newsroom, $article);
         }
       }
@@ -219,7 +224,7 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
       ($newsroom = $article->localgov_newsroom->entity)
     ) {
       $featured_nids = array_column($newsroom->localgov_newsroom_featured->getValue(), 'target_id');
-      return in_array($article->id(), $featured_nids);
+      return in_array($article->id(), $featured_nids, TRUE);
     }
 
     return FALSE;
@@ -250,7 +255,7 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
    */
   public static function articleUnsetNewsroomPromote(NodeInterface $newsroom, NodeInterface $article) {
     $references = $newsroom->localgov_newsroom_featured->getValue();
-    $position = array_search(['target_id' => $article->id()], $references);
+    $position = array_search(['target_id' => $article->id()], $references, TRUE);
     $newsroom->localgov_newsroom_featured->removeItem($position);
     $newsroom->save();
   }
