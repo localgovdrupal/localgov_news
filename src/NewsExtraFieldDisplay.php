@@ -6,9 +6,11 @@ use Drupal\content_moderation\ModerationInformationInterface;
 use Drupal\Core\Block\BlockManagerInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\node\Entity\Node;
 use Drupal\node\NodeForm;
 use Drupal\node\NodeInterface;
 use Drupal\views\Views;
@@ -196,13 +198,9 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
       $is_promoted = self::articlePromotedStatus($form_object);
       if ($to_promote != $is_promoted) {
         if ($to_promote) {
-          /** @var \Drupal\node\NodeInterface $newsroom */
-          /** @var \Drupal\node\NodeInterface $article */
           self::articleSetNewsroomPromote($newsroom, $article);
         }
         else {
-          /** @var \Drupal\node\NodeInterface $newsroom */
-          /** @var \Drupal\node\NodeInterface $article */
           self::articleUnsetNewsroomPromote($newsroom, $article);
         }
       }
@@ -233,12 +231,12 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
   /**
    * Add article to promoted in newsroom.
    *
-   * @param \Drupal\node\NodeInterface $newsroom
+   * @param \Drupal\node\Entity\Node $newsroom
    *   Newsroom node.
-   * @param \Drupal\node\NodeInterface $article
+   * @param \Drupal\Core\Entity\EntityInterface $article
    *   Article node.
    */
-  public static function articleSetNewsroomPromote(NodeInterface $newsroom, NodeInterface $article) {
+  public static function articleSetNewsroomPromote(Node $newsroom, EntityInterface $article) {
     $references = $newsroom->localgov_newsroom_featured->getValue();
     array_unshift($references, ['target_id' => $article->id()]);
     $newsroom->localgov_newsroom_featured->setValue($references);
@@ -248,12 +246,12 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
   /**
    * Remove article from promoted in newsroom.
    *
-   * @param \Drupal\node\NodeInterface $newsroom
+   * @param \Drupal\node\Entity\Node $newsroom
    *   Newsroom node.
-   * @param \Drupal\node\NodeInterface $article
+   * @param \Drupal\Core\Entity\EntityInterface $article
    *   Article node.
    */
-  public static function articleUnsetNewsroomPromote(NodeInterface $newsroom, NodeInterface $article) {
+  public static function articleUnsetNewsroomPromote(Node $newsroom, EntityInterface $article) {
     $references = $newsroom->localgov_newsroom_featured->getValue();
     $position = array_search(['target_id' => $article->id()], $references, TRUE);
     $newsroom->localgov_newsroom_featured->removeItem($position);
