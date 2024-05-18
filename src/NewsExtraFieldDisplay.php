@@ -137,42 +137,43 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
       ($form_display->getComponent('localgov_news_newsroom_promote'))
     ) {
 
-      /** @var \Drupal\node\NodeForm $form_object */
       $form_object = $form_state->getFormObject();
-      $node = $form_object->getEntity();
-      if (empty($this->moderationInformation) || !$this->moderationInformation->isModeratedEntity($node)) {
-        $visible = [
-          ":input[name='status[value]']" => [
-            'checked' => TRUE,
+      if ($form_object instanceof NodeForm) {
+        $node = $form_object->getEntity();
+        if (empty($this->moderationInformation) || !$this->moderationInformation->isModeratedEntity($node)) {
+          $visible = [
+            ":input[name='status[value]']" => [
+              'checked' => TRUE,
+            ],
+          ];
+        }
+        else {
+          $workflow = $this->moderationInformation->getWorkflowForEntity($node);
+          $type_plugin = $workflow->getTypePlugin();
+          $transitions = $type_plugin->getTransitions();
+          $published = [];
+          foreach ($transitions as $transition) {
+            $state = $transition->to();
+            if ($state->isPublishedState()) {
+              $published[] = [":input[name='moderation_state[0][state]']" => ['value' => $state->id()]];
+              $published[] = 'or';
+            }
+          }
+          array_pop($published);
+          $visible = [$published];
+        }
+
+        $form['localgov_news_newsroom_promote'] = [
+          '#title' => $this->t('Promote on newsroom'),
+          '#type' => 'checkbox',
+          '#description' => $this->t("Add to promoted news in the newsroom. If there is already the maximum number of promoted news items the last will be removed to make space."),
+          '#default_value' => self::articlePromotedStatus($form_object),
+          '#states' => [
+            'visible' => $visible,
           ],
         ];
+        $form['actions']['submit']['#submit'][] = [self::class, 'articleSubmit'];
       }
-      else {
-        $workflow = $this->moderationInformation->getWorkflowForEntity($node);
-        $type_plugin = $workflow->getTypePlugin();
-        $transitions = $type_plugin->getTransitions();
-        $published = [];
-        foreach ($transitions as $transition) {
-          $state = $transition->to();
-          if ($state->isPublishedState()) {
-            $published[] = [":input[name='moderation_state[0][state]']" => ['value' => $state->id()]];
-            $published[] = 'or';
-          }
-        }
-        array_pop($published);
-        $visible = [$published];
-      }
-
-      $form['localgov_news_newsroom_promote'] = [
-        '#title' => $this->t('Promote on newsroom'),
-        '#type' => 'checkbox',
-        '#description' => $this->t("Add to promoted news in the newsroom. If there is already the maximum number of promoted news items the last will be removed to make space."),
-        '#default_value' => self::articlePromotedStatus($form_object),
-        '#states' => [
-          'visible' => $visible,
-        ],
-      ];
-      $form['actions']['submit']['#submit'][] = [self::class, 'articleSubmit'];
     }
   }
 
