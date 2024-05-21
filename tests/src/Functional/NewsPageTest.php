@@ -182,7 +182,7 @@ class NewsPageTest extends BrowserTestBase {
     $newsroom = $this->nodeStorage->load($newsroom->id());
     $article = $this->getNodeByTitle('News article 1');
     $promoted = $newsroom->localgov_newsroom_featured->getValue();
-    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted));
+    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted, TRUE));
 
     // Remove article.
     $this->drupalGet($article->toUrl('edit-form'));
@@ -192,7 +192,7 @@ class NewsPageTest extends BrowserTestBase {
     $this->nodeStorage->resetCache();
     $newsroom = $this->nodeStorage->load($newsroom->id());
     $promoted = $newsroom->localgov_newsroom_featured->getValue();
-    $this->assertFalse(in_array(['target_id' => $article->id()], $promoted));
+    $this->assertFalse(in_array(['target_id' => $article->id()], $promoted, TRUE));
 
     // Fill featured items.
     for ($i = 2; $i < 5; $i++) {
@@ -208,13 +208,13 @@ class NewsPageTest extends BrowserTestBase {
     $this->nodeStorage->resetCache();
     $newsroom = $this->nodeStorage->load($newsroom->id());
     $promoted = $newsroom->localgov_newsroom_featured->getValue();
-    $this->assertFalse(in_array(['target_id' => $article->id()], $promoted));
+    $this->assertFalse(in_array(['target_id' => $article->id()], $promoted, TRUE));
     $article = $this->getNodeByTitle('News article 2');
-    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted));
+    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted, TRUE));
     $article = $this->getNodeByTitle('News article 3');
-    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted));
+    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted, TRUE));
     $article = $this->getNodeByTitle('News article 4');
-    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted));
+    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted, TRUE));
 
     // Add one more first pushed off.
     $this->drupalGet('/node/add/localgov_news_article');
@@ -229,13 +229,13 @@ class NewsPageTest extends BrowserTestBase {
     $newsroom = $this->nodeStorage->load($newsroom->id());
     $promoted = $newsroom->localgov_newsroom_featured->getValue();
     $article = $this->getNodeByTitle('News article 2');
-    $this->assertFalse(in_array(['target_id' => $article->id()], $promoted));
+    $this->assertFalse(in_array(['target_id' => $article->id()], $promoted, TRUE));
     $article = $this->getNodeByTitle('News article 3');
-    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted));
+    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted, TRUE));
     $article = $this->getNodeByTitle('News article 4');
-    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted));
+    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted, TRUE));
     $article = $this->getNodeByTitle('News article 5');
-    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted));
+    $this->assertTrue(in_array(['target_id' => $article->id()], $promoted, TRUE));
   }
 
   /**
