@@ -35,3 +35,21 @@ function localgov_news_install($is_syncing) {
     ]);
   }
 }
+
+/**
+ * Implements hook_uninstall().
+ */
+function localgov_news_uninstall($is_syncing) {
+  if (!$is_syncing) {
+    $config_keys = [
+      'field.storage.node.localgov_newsroom',
+      'pathauto.pattern.localgov_newsroom',
+    ];
+    $config_factory = \Drupal::service('config.factory');
+    foreach ($config_keys as $config_key) {
+      if ($editable = $config_factory->getEditable($config_key)) {
+        $editable->delete();
+      }
+    }
+  }
+}
