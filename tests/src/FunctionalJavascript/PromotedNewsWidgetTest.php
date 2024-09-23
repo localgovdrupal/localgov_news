@@ -3,10 +3,10 @@
 namespace Drupal\Tests\localgov_news\FunctionalJavascript;
 
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
-use Drupal\node\NodeInterface;
 use Drupal\Tests\field\Traits\EntityReferenceFieldCreationTrait;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\Tests\node\Traits\NodeCreationTrait;
+use Drupal\node\NodeInterface;
 
 /**
  * Tests newsroom restricted entity reference autocomplete.

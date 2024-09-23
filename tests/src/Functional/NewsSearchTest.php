@@ -2,10 +2,10 @@
 
 namespace Drupal\Tests\localgov_news\Functional;
 
-use Drupal\node\NodeInterface;
 use Drupal\Tests\BrowserTestBase;
-use Drupal\Tests\node\Traits\NodeCreationTrait;
 use Drupal\Tests\Traits\Core\CronRunTrait;
+use Drupal\Tests\node\Traits\NodeCreationTrait;
+use Drupal\node\NodeInterface;
 
 /**
  * Tests LocalGov News search.
