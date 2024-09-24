@@ -2,7 +2,6 @@
 
 namespace Drupal\localgov_news;
 
-use Drupal\content_moderation\ModerationInformationInterface;
 use Drupal\Core\Block\BlockManagerInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
@@ -10,6 +9,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\content_moderation\ModerationInformationInterface;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeForm;
 use Drupal\node\NodeInterface;
@@ -45,7 +45,7 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
    * @param \Drupal\content_moderation\ModerationInformationInterface|null $moderation_information
    *   The moderation information service.
    */
-  public function __construct(BlockManagerInterface $block_manager, ModerationInformationInterface $moderation_information = NULL) {
+  public function __construct(BlockManagerInterface $block_manager, ?ModerationInformationInterface $moderation_information = NULL) {
     $this->blockManager = $block_manager;
     $this->moderationInformation = $moderation_information;
   }
