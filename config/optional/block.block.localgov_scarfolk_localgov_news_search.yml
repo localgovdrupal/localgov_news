@@ -13,7 +13,7 @@ dependencies:
     - localgov_scarfolk
 id: localgov_scarfolk_localgov_news_search
 theme: localgov_scarfolk
-region: sidebar_second
+region: sidebar_first
 weight: -2
 provider: null
 plugin: 'views_exposed_filter_block:localgov_news_search-page_search_news'

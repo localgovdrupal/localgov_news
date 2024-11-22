@@ -10,7 +10,7 @@ dependencies:
     - localgov_base
 id: localgov_base_localgov_news_category
 theme: localgov_base
-region: sidebar_second
+region: sidebar_first
 weight: 0
 provider: null
 plugin: 'facet_block:localgov_news_category'
