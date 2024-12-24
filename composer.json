@@ -6,7 +6,7 @@
     "license": "GPL-2.0-or-later",
     "minimum-stability": "dev",
     "require": {
-        "drupal/core": "^10.2",
+        "drupal/core": "^10.2 || ^11.0",
         "drupal/entity_browser": "^2.5",
         "drupal/facets": "^2.0",
         "drupal/entity_reference_facet_link": "^2.0.0-beta",
