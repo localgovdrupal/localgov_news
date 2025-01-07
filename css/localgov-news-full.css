@@ -9,7 +9,7 @@
 }
 
 .news-article__category + .news-article__category::before {
-  content: ' / ';
+  content: " / ";
 }
 
 .news-article blockquote {
