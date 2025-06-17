@@ -142,7 +142,7 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
       // Must be a content entity form on a node.
       assert($form_object instanceof ContentEntityFormInterface);
       $node = $form_object->getEntity();
-      assert($node instanceof $node);
+      assert($node instanceof NodeInterface);
 
       if (empty($this->moderationInformation) || !$this->moderationInformation->isModeratedEntity($node)) {
         $visible = [
