@@ -4,6 +4,7 @@ namespace Drupal\localgov_news;
 
 use Drupal\Core\Block\BlockManagerInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Entity\ContentEntityFormInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -11,7 +12,6 @@ use Drupal\Core\Plugin\PluginBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\content_moderation\ModerationInformationInterface;
 use Drupal\node\Entity\Node;
-use Drupal\node\NodeForm;
 use Drupal\node\NodeInterface;
 use Drupal\views\Views;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -138,42 +138,45 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
     ) {
 
       $form_object = $form_state->getFormObject();
-      if ($form_object instanceof NodeForm) {
-        $node = $form_object->getEntity();
-        if (empty($this->moderationInformation) || !$this->moderationInformation->isModeratedEntity($node)) {
-          $visible = [
-            ":input[name='status[value]']" => [
-              'checked' => TRUE,
-            ],
-          ];
-        }
-        else {
-          $workflow = $this->moderationInformation->getWorkflowForEntity($node);
-          $type_plugin = $workflow->getTypePlugin();
-          $transitions = $type_plugin->getTransitions();
-          $published = [];
-          foreach ($transitions as $transition) {
-            $state = $transition->to();
-            if ($state->isPublishedState()) {
-              $published[] = [":input[name='moderation_state[0][state]']" => ['value' => $state->id()]];
-              $published[] = 'or';
-            }
-          }
-          array_pop($published);
-          $visible = [$published];
-        }
 
-        $form['localgov_news_newsroom_promote'] = [
-          '#title' => $this->t('Promote on newsroom'),
-          '#type' => 'checkbox',
-          '#description' => $this->t("Add to promoted news in the newsroom. If there is already the maximum number of promoted news items the last will be removed to make space."),
-          '#default_value' => self::articlePromotedStatus($form_object),
-          '#states' => [
-            'visible' => $visible,
+      // Must be a content entity form on a node.
+      assert($form_object instanceof ContentEntityFormInterface);
+      $node = $form_object->getEntity();
+      assert($node instanceof NodeInterface);
+
+      if (empty($this->moderationInformation) || !$this->moderationInformation->isModeratedEntity($node)) {
+        $visible = [
+          ":input[name='status[value]']" => [
+            'checked' => TRUE,
           ],
         ];
-        $form['actions']['submit']['#submit'][] = [self::class, 'articleSubmit'];
       }
+      else {
+        $workflow = $this->moderationInformation->getWorkflowForEntity($node);
+        $type_plugin = $workflow->getTypePlugin();
+        $transitions = $type_plugin->getTransitions();
+        $published = [];
+        foreach ($transitions as $transition) {
+          $state = $transition->to();
+          if ($state->isPublishedState()) {
+            $published[] = [":input[name='moderation_state[0][state]']" => ['value' => $state->id()]];
+            $published[] = 'or';
+          }
+        }
+        array_pop($published);
+        $visible = [$published];
+      }
+
+      $form['localgov_news_newsroom_promote'] = [
+        '#title' => $this->t('Promote on newsroom'),
+        '#type' => 'checkbox',
+        '#description' => $this->t("Add to promoted news in the newsroom. If there is already the maximum number of promoted news items the last will be removed to make space."),
+        '#default_value' => self::articlePromotedStatus($form_object),
+        '#states' => [
+          'visible' => $visible,
+        ],
+      ];
+      $form['actions']['submit']['#submit'][] = [self::class, 'articleSubmit'];
     }
   }
 
@@ -191,7 +194,7 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
     if (
       $form_state->getValue('status') &&
       ($form_object = $form_state->getFormObject()) &&
-      ($form_object instanceof NodeForm) &&
+      ($form_object instanceof ContentEntityFormInterface) &&
       ($article = $form_object->getEntity()) &&
       ($newsroom = $article->localgov_newsroom->entity)
     ) {
@@ -211,13 +214,13 @@ class NewsExtraFieldDisplay implements ContainerInjectionInterface {
   /**
    * Check for NodeForm Entity article and if it is promoted in Newsroom.
    *
-   * @param \Drupal\node\NodeForm $form_object
-   *   Node form object.
+   * @param \Drupal\Core\Entity\ContentEntityFormInterface $form_object
+   *   Content entity (Node) form object.
    *
    * @return bool
    *   TRUE if there is an article and it is promoted on newsroom.
    */
-  public static function articlePromotedStatus(NodeForm $form_object) {
+  public static function articlePromotedStatus(ContentEntityFormInterface $form_object) {
     if (
       ($article = $form_object->getEntity()) &&
       ($newsroom = $article->localgov_newsroom->entity)
