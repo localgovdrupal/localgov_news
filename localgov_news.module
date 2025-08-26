@@ -99,12 +99,15 @@ function localgov_news_field_widget_complete_form_alter(&$field_widget_complete_
     }
 
     unset($options['_none']);
-    // If there is no options or only one option left,
-    // select it automatically, and hide the field.
-    if (count($options) <= 1) {
+    // 1. If the newsroom field "is" required and we now only have 1 option
+    //    left, choose it and hide the field.
+    // 2. If the newsroom field "is not" required, but we have no newsrooms
+    //    available, hide the field.
+    if (($field_definition->isRequired() && count($options) == 1) || (!$field_definition->isRequired() && count($options) == 0)) {
       $field_widget_complete_form['widget']['#value'] = key($options);
       $field_widget_complete_form['widget']['#type'] = 'value';
     }
+
   }
 
   // Restrict the featured articles to articles in the newsroom.
