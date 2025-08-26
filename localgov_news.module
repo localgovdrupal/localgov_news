@@ -76,14 +76,15 @@ function localgov_news_form_alter(array &$form, FormStateInterface $form_state, 
  * Implements hook_field_widget_complete_form_alter().
  */
 function localgov_news_field_widget_complete_form_alter(&$field_widget_complete_form, FormStateInterface $form_state, $context) {
-  // If the localgov_newsroom field only has one newsroom to choose, just select
-  // it and hide the field.
+  // If the localgov_newsroom field is a required field and only has one
+  // newsroom to choose, just select it and hide the field.
   $field_definition = $context['items']->getFieldDefinition();
   if ($field_definition->getName() == 'localgov_newsroom' && isset($field_widget_complete_form['widget']['#options'])) {
     $options = $field_widget_complete_form['widget']['#options'];
 
-    // If there are no newsrooms display a warning.
-    if (count($options) == 1 && isset($options['_none'])) {
+    // If the newsroom field is a required field, but there are no newsrooms
+    // created yet, display a warning.
+    if ($field_definition->isRequired() && count($options) == 1 && isset($options['_none'])) {
       $create_newsroom_path = 'localgov_newsroom';
       if (\Drupal::moduleHandler()->moduleExists('localgov_microsites_group')) {
         // @phpstan-ignore-next-line Ignore the next line as this is only present on microsites.
@@ -98,7 +99,9 @@ function localgov_news_field_widget_complete_form_alter(&$field_widget_complete_
     }
 
     unset($options['_none']);
-    if (count($options) == 1) {
+    // If there is no options or only one option left,
+    // select it automatically, and hide the field.
+    if (count($options) <= 1) {
       $field_widget_complete_form['widget']['#value'] = key($options);
       $field_widget_complete_form['widget']['#type'] = 'value';
     }
