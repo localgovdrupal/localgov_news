@@ -33,7 +33,7 @@ Provides the pages and navigation for presenting news articles. A part of the Lo
   - The Categories field uses the LocalGov Topics vocabulary. Edit the field to use alternative or additional vocabularies.
   - Image is a required field - authors can upload a new image or select an image from the media library.
   - Article nodes are not promoted - see the Featured News section below.
-  - Article aliases are: [node:localgov_newsroom:entity:url:relative]/[node:localgov_news_date:date:html_year]/[node:title] thus prefacing the path with that of their newsroom, followed by year and sanitised title.
+  - Article aliases are: [node:localgov_newsroom:entity:url:path]/[node:localgov_news_date:date:html_year]/[node:title] thus prefacing the path with that of their newsroom, followed by year and sanitised title.
 
 ## Structured data
 - The Schema.org Metatag module is used to generate structured data for individual news articles. This is rendered as JSON LD in the `<head>` element.
