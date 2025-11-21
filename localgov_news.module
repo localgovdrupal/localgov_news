@@ -115,7 +115,7 @@ function localgov_news_field_widget_complete_form_alter(&$field_widget_complete_
     }
     if (isset($nid)) {
       foreach ($field_widget_complete_form['widget'] as $delta => $element) {
-        if (!empty($element['target_id']) && $element['target_id']['#selection_handler'] == 'views') {
+        if (is_numeric($delta) && !empty($element['target_id']) && $element['target_id']['#selection_handler'] == 'views') {
           $field_widget_complete_form['widget'][$delta]['target_id']['#selection_settings']['view']['arguments'] = [$nid];
         }
       }
