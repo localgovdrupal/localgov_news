@@ -19,6 +19,7 @@
         "drupal/localgov_topics": "^1.0"
     },
     "require-dev": {
+        "drupal/localgov_base": "^2.2",
         "drupal/localgov_search": "^1.1"
     }
 }
