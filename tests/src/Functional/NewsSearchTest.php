@@ -20,7 +20,7 @@ class NewsSearchTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $profile = 'testing';
+  protected $profile = 'standard';
 
   /**
    * {@inheritdoc}
