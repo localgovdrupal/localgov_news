@@ -10,7 +10,7 @@ dependencies:
     - localgov_scarfolk
 id: localgov_scarfolk_localgov_news_category
 theme: localgov_scarfolk
-region: sidebar_second
+region: sidebar_first
 weight: 0
 provider: null
 plugin: 'facet_block:localgov_news_category'
